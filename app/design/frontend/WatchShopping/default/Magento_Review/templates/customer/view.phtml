@@ -1,0 +1,110 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Review\Block\Customer\View $block */
+
+$product = $block->getProductData();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$mediaUrl =  $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+?>
+<?php if ($product->getId()): ?>
+<div class="block-title"><strong><?= $block->escapeHtml(__('Reviews Details')) ?></strong></div>
+<div class="customer-review view">
+    <div class="product-details">
+        <div class="product-media">
+            <a class="product-photo" href="<?= $block->escapeUrl($product->getProductUrl()) ?>">
+                <?php /* customer_account_product_review_page */ ?>
+                <?= $block->getImage($block->getProductData(), 'customer_account_product_review_page')->toHtml() ?>
+            </a>
+        </div>
+        <div class="product-info">
+            <h2 class="product-brand">
+                <?php if($product->getBrandId()): ?>
+                    <?= $block->escapeHtml($block->getLayout()->createBlock('Venice\Checkout\Block\Renderer')->getBrandName($product->getBrandId())) ?>
+                <?php endif; ?>
+            </h2>
+            
+            <h2 class="product-name"><?= $block->escapeHtml($product->getName()) ?></h2>
+            <div class="review-details">
+                <?php if ($block->getRating() && $block->getRating()->getSize()): ?>
+                    <div class="customer-review-rating">
+                        <?php foreach ($block->getRating() as $_rating): ?>
+                            <?php if ($_rating->getPercent()): ?>
+                                <?php $rating = ceil($_rating->getPercent()) ?>
+                                <div class="rating-summary">
+                                    <div class="rating-result" title="<?= $rating ?>%">
+                                        <meta itemprop="worstRating" content="1">
+                                        <meta itemprop="bestRating" content="100">
+                                        <meta itemprop="ratingValue" content="<?= $rating ?>">
+                                        <div class="rating-result__stars">
+                                            <?php
+                                            for($i = 0; $i < 5; $i++){
+                                                echo '<span class="icon-star"></span>';
+                                            } ?>
+                                        </div>
+
+                                        <div class="rating-result__text">
+                                            <div style="width:<?= $rating ?>%">
+                                                <?php
+                                                for($i = 0; $i < 5; $i++){
+                                                    echo '<span class="icon-star"></span>';
+                                                } ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <?php $rating = 0 ?>
+                    <div class="rating-summary">
+                        <div class="rating-result" title="<?= $rating ?>%">
+                            <meta itemprop="worstRating" content="1">
+                            <meta itemprop="bestRating" content="100">
+                            <meta itemprop="ratingValue" content="<?= $rating ?>">
+                            <div class="rating-result__stars">
+                                <?php
+                                for($i = 0; $i < 5; $i++){
+                                    echo '<span class="icon-star"></span>';
+                                } ?>
+                            </div>
+
+                            <div class="rating-result__text">
+                                <div style="width:<?= $rating ?>%">
+                                    <?php
+                                    for($i = 0; $i < 5; $i++){
+                                        echo '<span class="icon-star"></span>';
+                                    } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="review-details">
+        <div class="review-title"><?= $block->escapeHtml($block->getReviewData()->getTitle()) ?></div>
+        <div class="review-content"><?= nl2br($block->escapeHtml($block->getReviewData()->getDetail())) ?></div>
+        <?php if($block->getReviewData()->getImage()): ?>
+            <div class="review-content-image"><img src="<?php echo $mediaUrl.'review_booster/image'.$block->getReviewData()->getImage(); ?>"></div>
+        <?php endif; ?>
+        <div class="review-date">
+            <?= $block->escapeHtml(__('Submitted on %1', '<time class="date">' . $block->dateFormat($block->getReviewData()->getCreatedAt()) . '</time>'), ['time']) ?>
+        </div>
+    </div>
+</div>
+<div class="actions-toolbar">
+    <div class="secondary">
+        <a class="action back" href="<?= $block->escapeUrl($block->getBackUrl()) ?>"><span><?= $block->escapeHtml(__('Go Back')) ?></span></a>
+    </div>
+</div>
+<?php endif; ?>

@@ -1,0 +1,32 @@
+<?php
+$_product = $block->getCurrentProduct();
+$_categories = $_product->getExtensionAttributes()->getCategoryLinks();
+?>
+
+<?php if (count($_categories) > 0):?>
+    <div class="block block-product-findmore">
+        <div class="block-title title">
+            <strong><?php echo __("Find More")?></strong>
+        </div>
+        <div class="block-content">
+			<div class="item-categories">
+            <?php foreach ($_categories as $_category): ?>
+                
+                    <?php $obj= $block->getCategoryName($_category->getCategoryId()); ?>
+                    <?php if ($obj->getStatus() !== 0):?>
+                        <?php if ($obj->getParentStatus() === 0):?>
+                            <a href="<?php echo $obj->getCategoryUrl(); ?>"><?php echo $obj->getName();?></a>
+                        <?php else:?>
+                            <a href="<?php echo $obj->getCategoryUrl(); ?>"><?php echo $obj->getParentName()." ".$obj->getName();?></a>
+                        <?php endif;?>
+                    <?php endif;?>
+
+                    <?php if (!empty($obj->getName())):?>
+                        <?php if(next($_categories)) echo ' / '; ?>
+                    <?php endif; ?>
+                
+            <?php endforeach; ?>
+				</div>
+        </div>
+    </div>
+<?php endif; ?>

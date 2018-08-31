@@ -1,0 +1,43 @@
+@import '_font';
+@import '_mixin';
+@import '_variable';
+
+@include mediaWidth($screen-ip5){
+	.catalog-product-view{
+
+		.layout_1{
+		
+			.product.media{
+				.fotorama__nav__frame.fotorama__nav__frame--thumb{width:56px!important;height:56px;}
+				
+			}
+		}
+	}
+	
+	.customer-account-login .login-container .block-social-login ul > li a{
+		font-size:$h12!important;
+	}
+	.opc-progress-bar .opc-progress-bar-item:first-child{
+		@include flexBasis(60%);
+	}
+	
+	.table-blue{
+		.table-row{
+			th,td{
+				&:nth-of-type(1){
+					width:15%;
+				}
+				&:nth-of-type(2){
+					width:15%;
+				}
+				&:nth-of-type(3){
+					width:35%;
+				}
+				&:nth-of-type(4){
+					width:32%;
+				}
+			}
+		}
+	}
+	.ws_widget_shop_by_brand .brandlist li .brand-title{@include fontSize($h13)}
+}

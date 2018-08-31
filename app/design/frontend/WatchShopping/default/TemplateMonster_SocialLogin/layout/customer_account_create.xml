@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+		<referenceContainer name="content">
+ 	  <container name="customer.create.form" htmlClass="customer-create-form" htmlTag="div" />
+	</referenceContainer>
+	<referenceContainer name="content">
+ 	  <container name="customer.create" htmlClass="customer-create" htmlTag="div" />
+	</referenceContainer>
+		
+	<referenceContainer name="customer.create">
+		<block class="TemplateMonster\SocialLogin\Block\Account\SocialLogin" name="social.login" />
+	</referenceContainer>
+	<!--<move element="customer_form_register" destination="customer.create" before="social.login" />-->
+		<move element="customer_form_register" destination="customer.create.form" before="-" />
+		<move element="customer-create-form" destination="customer.create" before="customer.create.form" />
+    </body>
+</page>
+

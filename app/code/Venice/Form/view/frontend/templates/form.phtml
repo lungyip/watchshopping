@@ -1,0 +1,104 @@
+<?php
+$fields= $block->getFormDetail();
+?>
+<?php if (!empty($fields)):?>
+    <div>
+        <div class="inform-input">
+            <form name="input-form" id="input-form" class="feedbackForm" enctype="multipart/form-data" method="post"  autocomplete="off" action="<?php echo $block->getBaseUrl().'form/upload' ?>">
+                <input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
+                <div class="fieldset" >
+                    <?php foreach($fields as $field):?>
+                        <?php if (isset($field->title)):?>
+                            <div class="fieldset-title"><?php echo $field->title ; ?></div>
+                        <?php endif;?>
+                        <?php if (isset($field->subtitle)):?>
+                             <div class="fieldset-sub-title"><?php echo $field->subtitle ; ?></div>
+                        <?php endif;?>
+                        <ul class="form-list">
+                            <?php foreach ($field->fields as $item):?>
+                                <?php if ($item->type == "select"):?>
+                                    <li class="<?php echo $item->id ?>">
+                                        <div class="<?php echo $item->id ?>">
+                                            <select title="<?php echo $item->id ?>" name="<?php echo $item->name ?>" class="<?php echo $item->name ?>">
+                                                <?php foreach ($item->option as $option):?>
+                                                    <?php if ($option->isDefault == "true"):?>
+                                                        <option selected="selected" value="<?php echo $option->value ?>"><?php echo $option->name ?></option>
+                                                    <?php else:?>
+                                                        <option value="<?php echo $option->value ?>"><?php echo $option->name ?></option>
+                                                    <?php endif;?>
+                                                <?php endforeach;?>
+                                            </select>
+                                        </div>
+                                    </li>
+                                <?php elseif ($item->type == "radio"):?>
+                                    <li class="<?php echo $item->id?>-area">
+                                        <div class="<?php echo $item->id ?>">
+                                            <?php if ($item->check == "checked"):?>
+                                                <input type="<?php echo $item->type ?>"  name="<?php echo $item->name ?>" value="<?php echo $item->value ?>" checked="checked"><label class="radio-label"><?php echo $item->label ?></label>
+                                            <?php else:?>
+                                                <input type="<?php echo $item->type ?>"  name="<?php echo $item->name ?>" value="<?php echo $item->value ?>"><label class="radio-label"><?php echo $item->label ?></label>
+                                            <?php endif;?>
+                                        </div>
+                                    </li>
+                                <?php elseif ($item->type == "checkbox"):?>
+                                    <li class="<?php echo $item->id?>">
+                                        <div class="<?php echo $item->id ?>-area">
+                                            <input type="<?php echo $item->type ?>" class="<?php echo $item->id?>" name="<?php echo $item->name ?>" value="<?php echo $item->value ?>"><label class="<?php echo $item->class ?>"><?php echo $item->label ?></label>
+                                        </div>
+                                    </li>
+                                <?php elseif ($item->type == "date"):?>
+                                    <li class="<?php echo $item->id?>">
+                                        <div class="<?php echo $item->label ?>">
+                                            <label><?php echo $item->label ?></label>
+                                        </div>
+                                        <div class="<?php echo $item->id ?>">
+                                            <input type="<?php echo $item->type ?>"  name="<?php echo $item->name ?>">
+                                        </div>
+                                    </li>
+                                <?php elseif ($item->type == "textarea"):?>
+                                    <li class="<?php echo $item->id?>">
+                                        <div class="<?php echo $item->id ?>">
+                                            <textarea rows="4" cols="50" name="<?php echo $item->name ?>" placeholder="<?php echo $item->placeholder ?>"></textarea>
+                                        </div>
+                                    </li>
+                                <?php elseif ($item->type == "dropzone"):?>
+                                    <li class="<?php echo $item->label?>-area">
+                                        <div class="dropzone">
+                                            <div class="dropzone-message">Drop you files here</div>
+                                        </div>
+                                        <div class="dropzone-error-message"></div>
+                                    </li>
+                                <?php else: ?>
+                                    <li class="<?php echo $item->id?>">
+                                        <div class="<?php echo $item->id ?>">
+                                            <input type="<?php echo $item->type ?>" name="<?php echo $item->name ?>" <?php if (isset($item->patterns)):?>data-pattern='<?php echo $item->patterns ?>' data-message="<?php echo $item->errorMessage ?>"<?php endif;?> <?php if (isset($item->required)):?>data-required='<?php echo $item->required ?>' <?php endif;?> placeholder="<?php echo $item->placeholder ?>">
+                                        </div>
+                                    </li>
+                                <?php endif;?>
+                            <?php endforeach;?>
+                        </ul>
+                    <?php endforeach;?>
+                    <?php if($block->getCustomerId() !==null):?><input type="hidden" name="customer_id" value="<?php echo $block->getCustomerId(); ?>"><?php endif?>
+                    <input type="hidden" name="form_name" value="<?php echo $block->getName(); ?>">
+                </div>
+                <div class="buttons-set form-buttons btn-only" id="show-button" style="display:none">
+                    <button id="submit" class="submit" type="submit"><span>Submit</span></button>
+                </div>
+            </form>
+        </div>
+        <div class="buttons-set form-buttons btn-only" id="next-button">
+            <button id="next" class="button" ><span><span>Next</span></span></button>
+        </div>
+    </div>
+<?php endif;?>
+
+<form id="redirect-page" class="redirect" action="<?php echo $block->getBaseUrl().'form' ?>" style="display:none"></form>
+
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Venice_Form/js/form":{}
+        }
+    }
+</script>

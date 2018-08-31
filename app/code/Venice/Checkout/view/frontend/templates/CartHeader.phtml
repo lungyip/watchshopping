@@ -1,0 +1,51 @@
+
+
+<?php if (!empty($block->getItemsSummaryQty())):?>
+<div class="car-content">
+    <div class="cart-message">
+		<p><?php echo __('You had these in your shopping cart.') ?><br>
+<?php echo __('Adding an item to your cart doesn\'t hold it, so get what you love before it\'s gone.') ?></p>
+        <!-- <div class="message-front">You have <span class="total-qty"><?php # echo $block->getItemsSummaryQty();?></span> items for a total of</div>
+		
+		
+        <!--<div id="cart-header-totals" class="cart-header-totals" data-bind="scope:'block-totals'">
+            <!-- ko template: getTemplate() --><!-- /ko 
+            <script type="text/x-magento-init">
+            {
+                "#cart-totals": {
+                    "Magento_Ui/js/core/app": <?= /* @escapeNotVerified */ $block->getJsLayout() ?>
+                }
+            }
+    </script>
+        </div>
+        <div class="message-end">in your cart.</div>
+        <p>Adding an item to your cart doesn't hold it, so get what you love before it's gone.</p>-->
+    </div>
+	<div class="cart-gp">
+		<div class="continue">
+			<?php if ($block->getContinueShoppingUrl()): ?>
+
+				<a class="action continue"
+				   href="<?= $block->escapeUrl($block->getContinueShoppingUrl()) ?>"
+				   title="<?= $block->escapeHtml(__('Continue Shopping')) ?>">
+					<span><?= /* @escapeNotVerified */ __('CONTINUE SHOPPING') ?></span>
+				</a>
+
+			<?php endif; ?>
+		</div>
+		<div class="checkout">
+			<?php if ($block->isPossibleCheckout()):?>
+				<button type="button"
+						data-role="proceed-to-checkout"
+						title="<?= /* @escapeNotVerified */ __('Proceed to Checkout') ?>"
+						data-mage-init='{"Magento_Checkout/js/proceed-to-checkout":{"checkoutUrl":"<?= /* @escapeNotVerified */ $block->getCheckoutUrl() ?>"}}'
+						class="action primary checkout<?= ($block->isDisabled()) ? ' disabled' : '' ?>"
+						<?php if ($block->isDisabled()):?>disabled="disabled"<?php endif; ?>>
+					<span><?= /* @escapeNotVerified */ __('I\'M AREADY TO CHECK OUT') ?></span>
+				</button>
+
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+<?php endif;?>

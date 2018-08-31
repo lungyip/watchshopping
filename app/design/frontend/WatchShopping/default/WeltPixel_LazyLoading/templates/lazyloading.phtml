@@ -1,0 +1,9 @@
+<?php
+$_helper = $this->helper('WeltPixel\LazyLoading\Helper\Data');
+$imageLoader = $_helper->getImageLoader();
+?>
+<script type="text/javascript">
+    require(['jquery', 'WeltPixel_LazyLoading/js/lazyload'], function($,lazy) {
+        new lazy();
+    });
+</script>

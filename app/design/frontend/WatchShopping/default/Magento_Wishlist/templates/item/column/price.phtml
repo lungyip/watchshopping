@@ -1,0 +1,20 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart $block */
+?>
+<?php foreach ($block->getChildNames() as $childName): ?>
+    <?= /* @noEscape */ $block->getLayout()->renderElement($childName, false) ?>
+<?php endforeach;?>
+<?php $discount = $block->getLayout()->createBlock('Venice\Checkout\Block\Renderer')->getDiscount($block->getItem()->getProduct()->getId()) ?>
+<?php if($discount): ?>
+    <div class="discount-box">
+        <span class="keyword">Save </span><span class="rate"><?php echo __($discount.'%'); ?></span>
+    </div>
+<?php endif;?>
+</div>

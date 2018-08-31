@@ -1,0 +1,63 @@
+<?php $_editor = $block->getCurrentEditorChoice();?>
+
+<?php if ($_editor->getStatus() && $_editor->getInfoStatus() && $_editor->getEditorId() !== null): ?>
+    <div class="block widget block-editor-choice">
+        <div class="block-title title">
+            <strong role="heading" aria-level="2"><?php echo __("Editor's Choice")?></strong>
+        </div>
+        <div class="block-content">
+            <div class="editor-choice-info">
+                <div class="editor-info">
+                    <div class="editor-image"><img src="<?php echo $block->getUrl('media/editor').$_editor->getImage(); ?>"></div>
+                    <div class="editor-name"><?php echo $_editor->getFirstName().' '.$_editor->getLastName(); ?></div>
+                    <div class="editor-catalog"><?php echo $_editor->getCatalog(); ?></div>
+                </div>
+                <div class="editor-choice-content">
+                    <div class="editor-note">
+                        <div class="note-title"><?php echo $_editor->getNoteTitle(); ?></div>
+                        <div class="note-content slider-content">
+                            <div class="note-content-text">
+                                <?php echo $_editor->getNoteDescription(); ?>
+                            </div>
+                        </div>
+                        <span class="note-read-more slider"  data-mage-init='{"readmore": {"height":"4.8rem"}}'></span>
+                    </div>
+                <?php $choices = $block->getChoice($_editor->getNoteId()); ?>
+                <?php if(!empty($choices)): ?>
+                    <div class="editor-choice">
+                        <?php $count=1; ?>
+                        <?php
+                        if($_editor->getType()==0)
+                        {
+                            $chosenFamily=array_values($choices->getItems())[0]->getChoice();
+                            $family=$block->getFamily($chosenFamily);
+                            $familyName=$family->getName();
+                            $familyUrl=$family->getUrlKey();
+                            $choices=$block->getProductByFamily($_editor->getParentId(),$chosenFamily);
+                        } else {
+                            $family=$block->getFamily($_editor->getParentId());
+                            $familyName=$family->getName();
+                        }
+                            ?>
+                        <?php foreach ($choices as $choice): ?>
+                            <?php $Obj=($_editor->getType()?$block->getProduct($choice->getChoice()):$block->getProduct($choice->getEntityId()));?>
+                                <div class="editor-choice-item">
+                                    <a class="choice-item" href="<?php echo $block->getUrl('catalog/product/view', ['id' => $Obj->getId()]); ?>">
+                                        <?php $image = $Obj->getThumbnail(); ?>
+                                        <div class="choice-image"><img src="<?php echo $block->getUrl('media/catalog/product').$image; ?>"></div>
+                                        <div class="choice-family"><?php echo $familyName; ?></div>
+                                        <div class="choice-ref"><?php echo $block->getRefBySku($Obj->getSku()); ?></div>
+                                    </a>
+                                </div>
+                        <?php if($count++>=5): break; endif ?>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php if($_editor->getType()==0): ?>
+                        <div class="family-url"><a href="<?php echo $block->getUrl($familyUrl); ?>">View all <?php echo $familyName; ?></a></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif ?>
